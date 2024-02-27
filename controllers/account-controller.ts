@@ -3,11 +3,10 @@ const config = require("../knexfile.js");
 
 const knexInstance = knex(config);
 
-type User = {
-  id: number;
-  discord_id: string;
-  tag: string;
-};
+import { User } from "../types/User";
+import { RiotAccount } from "../types/RiotAccount";
+import { SteamAccount } from "../types/SteamAccount";
+import { SteamOrRiotAccount } from "../types/SteamOrRiotAccount";
 
 const getAllUsers = async (_req: any, res: any) => {
   try {
@@ -18,16 +17,57 @@ const getAllUsers = async (_req: any, res: any) => {
     res.status(400).send("Error retrieving users");
   }
 };
-const getUserByDiscordId = async (req: any, res: any) => {
+
+const getAllAccountsByDiscordId = async (req: any, res: any) => {
   try {
-    const data: User[] = await knexInstance("users").where({
-      discord_id: req.params.id,
-    });
-    res.status(200).json(data);
+    const riotAccounts: SteamOrRiotAccount[] = await knexInstance(
+      "riot_accounts"
+    )
+      .select("*")
+      .where({
+        discord_id: req.params.discord_id,
+      });
+
+    const steamAccounts: SteamOrRiotAccount[] = await knexInstance(
+      "steam_accounts"
+    )
+      .select("*")
+      .where({
+        discord_id: req.params.discord_id,
+      });
+    res
+      .status(200)
+      .json({ riotAccountList: riotAccounts, steamAccountList: steamAccounts });
   } catch (error) {
     console.error(error);
     res.status(400).send("Error retrieving user");
   }
 };
 
-export { getAllUsers, getUserByDiscordId };
+// for select sub command
+const getRiotAccountsByDiscordId = async (req: any, res: any) => {
+  try {
+    const data: RiotAccount[] = await knexInstance("riot_accounts").where({
+      discord_id: req.params.id,
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error retrieving riot accounts");
+  }
+};
+
+const selectRiotAccoutsByDiscordId = async (req: any, res: any) => {
+  try {
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error selecting riot account");
+  }
+};
+
+export {
+  getAllUsers,
+  getAllAccountsByDiscordId,
+  getRiotAccountsByDiscordId,
+  selectRiotAccoutsByDiscordId,
+};
