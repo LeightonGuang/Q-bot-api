@@ -1,5 +1,5 @@
 import express from "express";
-import userRouter from "./routes/user-routes.js";
+import accountRouter from "./routes/account-routes.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to Q-bot-api");
 });
 
-app.use("/api/users", userRouter);
+app.use("/api/users", accountRouter);
 
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);
