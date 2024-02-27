@@ -109,7 +109,7 @@
   "include": [
     "knexfile.js",
     "./**/*.ts",
-    "seed-data/users.js",
+    "seed-data/accounts.js",
     "seeds/populate.js"
   ],
   "exclude": ["dist"]
