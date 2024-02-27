@@ -10,4 +10,4 @@ create knexfile.ts `npx knex init -x ts`
 
 create table `npx knex migrate:make <migration_file_name>`
 
-migrate table to mysql database `npx knex migrate:latest`
+migrate table to mysql database `npm run migrate` or `npx knex migrate:latest`
