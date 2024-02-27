@@ -1,8 +1,8 @@
-// const dotenv = require("dotenv");
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
+// import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
-const config = {
+module.exports = {
   client: "mysql2",
   connection: {
     host: process.env.DB_HOST,
@@ -18,5 +18,3 @@ const config = {
     directory: "./seeds",
   },
 };
-
-export default config;

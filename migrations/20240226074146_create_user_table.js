@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export const up = (knex) => {
+exports.up = (knex) => {
   return knex.schema
     .createTable("users", (table) => {
       table.increments("id").primary();
@@ -12,7 +12,7 @@ export const up = (knex) => {
 
     .createTable("riot_accounts", (table) => {
       table.increments("id").primary();
-      table.integer("user_id").notNullable();
+      table.string("discord_id").notNullable();
       table.string("riot_id").notNullable();
       table.string("region").notNullable();
       table.string("rank").notNullable();
@@ -21,7 +21,7 @@ export const up = (knex) => {
 
     .createTable("steam_accounts", (table) => {
       table.increments("id").primary();
-      table.integer("user_id").notNullable();
+      table.string("discord_id").notNullable();
       table.string("account_name").notNullable();
       table.integer("friend_code").notNullable();
       table.string("steam_profile_url").notNullable();
@@ -33,4 +33,4 @@ export const up = (knex) => {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export const down = (knex) => {};
+exports.down = (knex) => {};
