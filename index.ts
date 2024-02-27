@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to Q-bot-api");
 });
 
-app.use("/api/users", accountRouter);
+app.use("/api/accounts", accountRouter);
 
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);
