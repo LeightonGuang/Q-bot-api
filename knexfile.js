@@ -1,6 +1,4 @@
-const dotenv = require("dotenv");
-// import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
+require("dotenv").config({ path: "/home/lg/Documents/github/Q-bot-api/.env" });
 
 module.exports = {
   client: "mysql2",
