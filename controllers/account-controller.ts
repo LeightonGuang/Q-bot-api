@@ -47,9 +47,11 @@ const getAllAccountsByDiscordId = async (req: any, res: any) => {
 // for select sub command
 const getRiotAccountsByDiscordId = async (req: any, res: any) => {
   try {
-    const data: RiotAccount[] = await knexInstance("riot_accounts").where({
-      discord_id: req.params.id,
-    });
+    const data: RiotAccount[] = await knexInstance("riot_accounts")
+      .select("*")
+      .where({
+        discord_id: req.params.discord_id,
+      });
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
@@ -65,9 +67,24 @@ const selectRiotAccoutsByDiscordId = async (req: any, res: any) => {
   }
 };
 
+const getSteamAccountsByDiscordId = async (req: any, res: any) => {
+  try {
+    const data: SteamAccount[] = await knexInstance("steam_accounts")
+      .select("*")
+      .where({
+        discord_id: req.params.discord_id,
+      });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error retrieving steam accounts");
+  }
+};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
   getRiotAccountsByDiscordId,
   selectRiotAccoutsByDiscordId,
+  getSteamAccountsByDiscordId,
 };
