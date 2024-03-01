@@ -61,7 +61,7 @@ const getRiotAccountsByDiscordId = async (req: any, res: any) => {
 
 const selectRiotAccountByRiotId = async (req: any, res: any) => {
   try {
-    const { discord_id, selectedAccountIdOrName } = req.body;
+    const { discord_id, selectedRiotOrSteamId: riot_id } = req.body;
 
     // turn all other accounts to inactive
     await knexInstance("riot_accounts")
@@ -73,10 +73,10 @@ const selectRiotAccountByRiotId = async (req: any, res: any) => {
     // set selected account to active
     await knexInstance("riot_accounts")
       .where({
-        riot_id: selectedAccountIdOrName,
+        riot_id: riot_id,
       })
       .update({ active: true });
-    res.status(200).send("success");
+    res.status(200).send("Riot account selected");
   } catch (error) {
     console.error(error);
   }
@@ -96,10 +96,36 @@ const getSteamAccountsByDiscordId = async (req: any, res: any) => {
   }
 };
 
+const selectSteamAccountBySteamId = async (req: any, res: any) => {
+  try {
+    const { discord_id, selectedRiotOrSteamId: steam_id } = req.body;
+
+    await knexInstance("steam_accounts")
+      .where({
+        discord_id: discord_id,
+      })
+      .update({ active: false });
+
+    await knexInstance("steam_accounts")
+      .where({
+        steam_id: steam_id,
+      })
+      .update({ active: true });
+
+    const data: SteamAccount[] = await knexInstance("steam_accounts").where({
+      steam_id: steam_id,
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
   getRiotAccountsByDiscordId,
   selectRiotAccountByRiotId,
   getSteamAccountsByDiscordId,
+  selectSteamAccountBySteamId,
 };
