@@ -4,6 +4,7 @@ import {
   getAllUsers,
   getAllAccountsByDiscordId,
   getRiotAccountsByDiscordId,
+  selectRiotAccountByRiotId,
   getSteamAccountsByDiscordId,
 } from "../controllers/account-controller";
 
@@ -14,8 +15,8 @@ accountRouter.route("/:discord_id").get(getAllAccountsByDiscordId);
 // accountRouter.route("/steam/add/:discord_id").post(addSteamAccount);
 // select sub command
 accountRouter.route("/riot/get/:discord_id").get(getRiotAccountsByDiscordId);
-// accountRouter.route("/riot/edit/:discord_id").put(editRiotAccount);
+accountRouter.route("/riot/select").patch(selectRiotAccountByRiotId);
 accountRouter.route("/steam/get/:discord_id").get(getSteamAccountsByDiscordId);
-// accountRouter.route("/steam/edit/:discord_id").put(editSteamAccount);
+// accountRouter.route("/steam/select/:discord_id").put(editSteamAccount);
 
 export default accountRouter;

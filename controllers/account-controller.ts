@@ -59,11 +59,26 @@ const getRiotAccountsByDiscordId = async (req: any, res: any) => {
   }
 };
 
-const selectRiotAccoutsByDiscordId = async (req: any, res: any) => {
+const selectRiotAccountByRiotId = async (req: any, res: any) => {
   try {
+    const { discord_id, selectedAccountIdOrName } = req.body;
+
+    // turn all other accounts to inactive
+    await knexInstance("riot_accounts")
+      .where({
+        discord_id: discord_id,
+      })
+      .update({ active: false });
+
+    // set selected account to active
+    await knexInstance("riot_accounts")
+      .where({
+        riot_id: selectedAccountIdOrName,
+      })
+      .update({ active: true });
+    res.status(200).send("success");
   } catch (error) {
     console.error(error);
-    res.status(400).send("Error selecting riot account");
   }
 };
 
@@ -85,6 +100,6 @@ export {
   getAllUsers,
   getAllAccountsByDiscordId,
   getRiotAccountsByDiscordId,
-  selectRiotAccoutsByDiscordId,
+  selectRiotAccountByRiotId,
   getSteamAccountsByDiscordId,
 };
