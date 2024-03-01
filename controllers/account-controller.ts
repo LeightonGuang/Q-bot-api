@@ -61,7 +61,7 @@ const getRiotAccountsByDiscordId = async (req: any, res: any) => {
 
 const selectRiotAccountByRiotId = async (req: any, res: any) => {
   try {
-    const { discord_id, selectedRiotOrSteamId: riot_id } = req.body;
+    const { discord_id, riot_id } = req.body;
 
     // turn all other accounts to inactive
     await knexInstance("riot_accounts")
@@ -98,7 +98,7 @@ const getSteamAccountsByDiscordId = async (req: any, res: any) => {
 
 const selectSteamAccountBySteamId = async (req: any, res: any) => {
   try {
-    const { discord_id, selectedRiotOrSteamId: steam_id } = req.body;
+    const { discord_id, steam_id } = req.body;
 
     await knexInstance("steam_accounts")
       .where({
@@ -121,6 +121,48 @@ const selectSteamAccountBySteamId = async (req: any, res: any) => {
   }
 };
 
+const deleteRiotAccountByRiotId = async (req: any, res: any) => {
+  try {
+    const { discord_id, riot_id } = req.body;
+
+    // delete the account
+    await knexInstance("riot_accounts")
+      .where({
+        riot_id: riot_id,
+      })
+      .del();
+
+    // turn all other accounts to inactive
+    const noAccountActive: boolean =
+      (await knexInstance("riot_accounts")
+        .where({
+          discord_id: discord_id,
+        })
+        .whereNot({ active: false }).length) === 0;
+
+    const userHasNoRiotAccount: boolean =
+      (await knexInstance("riot_accounts").where({
+        discord_id: discord_id,
+      }).length) === 0;
+
+    if (userHasNoRiotAccount && noAccountActive) {
+      // set the first account to active
+      await knexInstance("riot_accounts")
+        .where({
+          discord_id: discord_id,
+        })
+        .first()
+        .update({ active: true });
+    }
+
+    res.status(200).send("Riot account deleted");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteSteamAccountBySteamId = async (req: any, res: any) => {};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
@@ -128,4 +170,6 @@ export {
   selectRiotAccountByRiotId,
   getSteamAccountsByDiscordId,
   selectSteamAccountBySteamId,
+  deleteRiotAccountByRiotId,
+  deleteSteamAccountBySteamId,
 };

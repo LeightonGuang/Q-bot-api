@@ -7,6 +7,8 @@ import {
   selectRiotAccountByRiotId,
   getSteamAccountsByDiscordId,
   selectSteamAccountBySteamId,
+  deleteRiotAccountByRiotId,
+  deleteSteamAccountBySteamId,
 } from "../controllers/account-controller";
 
 accountRouter.route("/").get(getAllUsers);
@@ -19,5 +21,9 @@ accountRouter.route("/riot/get/:discord_id").get(getRiotAccountsByDiscordId);
 accountRouter.route("/riot/select").patch(selectRiotAccountByRiotId);
 accountRouter.route("/steam/get/:discord_id").get(getSteamAccountsByDiscordId);
 accountRouter.route("/steam/select").patch(selectSteamAccountBySteamId);
+
+// delete sub command
+accountRouter.route("/riot/delete").delete(deleteRiotAccountByRiotId);
+accountRouter.route("/steam/delete").delete(deleteSteamAccountBySteamId);
 
 export default accountRouter;
