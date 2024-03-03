@@ -20,7 +20,7 @@ migrate table to mysql database `npm run migrate` or `npx knex migrate:latest`
 | -------- | ---------------------------------------------------------- | ----------------------------------------- | ----------- |
 | `GET`    | `http://localhost:8080/api/accounts`                       | /                                         |             |
 | `GET`    | `http://localhost:8080/api/accounts/:discord_id`           | /                                         |             |
-| `POST`   | `http://localhost:8080/api/accounts/:discord_id`           | /                                         |             |
+| `POST`   | `http://localhost:8080/api/accounts`                       | { discord_id: string, tag: string }       |             |
 | `GET`    | `http://localhost:8080/api/accounts/riot/is_duplicate`     | { discord_id: string , riot_id: string }  |             |
 | `POST`   | `http://localhost:8080/api/accounts/riot/add`              |                                           |             |
 | `POST`   | `http://localhost:8080/api/accounts/steam/add`             |                                           |             |
