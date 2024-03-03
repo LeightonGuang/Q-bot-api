@@ -3,6 +3,9 @@ const accountRouter: Router = Router();
 import {
   getAllUsers,
   getAllAccountsByDiscordId,
+  createUser,
+  checkUserExistByDiscordId,
+  checkUserDuplicateRiotId,
   addRiotAccount,
   addSteamAccount,
   getRiotAccountsByDiscordId,
@@ -14,10 +17,15 @@ import {
 } from "../controllers/account-controller";
 
 accountRouter.route("/").get(getAllUsers);
-// accountRouter.route("/:id").get(getUserByDiscordId);
+
+// add sub command
 accountRouter.route("/:discord_id").get(getAllAccountsByDiscordId);
+accountRouter.route("/").post(createUser);
+accountRouter.route("/user_exist/:discord_id").get(checkUserExistByDiscordId);
+accountRouter.route("/riot/is_duplicate").get(checkUserDuplicateRiotId);
 accountRouter.route("/riot/add").post(addRiotAccount);
 accountRouter.route("/steam/add").post(addSteamAccount);
+
 // select sub command
 accountRouter.route("/riot/get/:discord_id").get(getRiotAccountsByDiscordId);
 accountRouter.route("/riot/select").patch(selectRiotAccount);

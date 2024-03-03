@@ -14,7 +14,7 @@ const getAllUsers = async (_req: any, res: any) => {
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(400).send("Error retrieving users");
+    res.status(400).send("Error getting all users");
   }
 };
 
@@ -40,7 +40,74 @@ const getAllAccountsByDiscordId = async (req: any, res: any) => {
       .json({ riotAccountList: riotAccounts, steamAccountList: steamAccounts });
   } catch (error) {
     console.error(error);
-    res.status(400).send("Error retrieving user");
+    res.status(400).send("Error getting all accounts by ");
+  }
+};
+
+const checkUserExistByDiscordId = async (req: any, res: any) => {
+  try {
+    const data: User[] = await knexInstance("users").where({
+      discord_id: req.params.discord_id,
+    });
+
+    if (data.length === 0) {
+      res.status(200).send(false);
+    } else if (data.length > 0) {
+      res.status(200).send(true);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error checking existing user");
+  }
+};
+
+const checkUserDuplicateRiotId = async (req: any, res: any) => {
+  try {
+    console.log(req.body);
+    const { discord_id, riot_id } = req.body;
+    const data: RiotAccount[] = await knexInstance("riot_accounts").where({
+      discord_id: discord_id,
+      riot_id: riot_id,
+    });
+
+    if (data.length === 0) {
+      // if not duplicate, return false
+      res.status(200).send(false);
+    } else if (data.length > 0) {
+      // if duoplicate, return true
+      res.status(200).send(true);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error checking duplicate user");
+  }
+};
+
+const createUser = async (req: any, res: any) => {
+  try {
+    await knexInstance("users").insert(req.body);
+    res.status(200).send("User created");
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error creating user");
+  }
+};
+
+const addRiotAccount = async (req: any, res: any) => {
+  try {
+    await knexInstance("riot_accounts").insert(req.body);
+    res.status(200).send("Riot account added");
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error adding riot account");
+  }
+};
+
+const addSteamAccount = async (req: any, res: any) => {
+  try {
+    const {} = req.body;
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -59,7 +126,7 @@ const getRiotAccountsByDiscordId = async (req: any, res: any) => {
   }
 };
 
-const selectRiotAccountByRiotId = async (req: any, res: any) => {
+const selectRiotAccount = async (req: any, res: any) => {
   try {
     const { discord_id, riot_id } = req.body;
 
@@ -96,7 +163,7 @@ const getSteamAccountsByDiscordId = async (req: any, res: any) => {
   }
 };
 
-const selectSteamAccountBySteamId = async (req: any, res: any) => {
+const selectSteamAccount = async (req: any, res: any) => {
   try {
     const { discord_id, steam_id } = req.body;
 
@@ -121,7 +188,7 @@ const selectSteamAccountBySteamId = async (req: any, res: any) => {
   }
 };
 
-const deleteRiotAccountByRiotId = async (req: any, res: any) => {
+const deleteRiotAccount = async (req: any, res: any) => {
   try {
     const { discord_id, riot_id } = req.body;
 
@@ -161,15 +228,20 @@ const deleteRiotAccountByRiotId = async (req: any, res: any) => {
   }
 };
 
-const deleteSteamAccountBySteamId = async (req: any, res: any) => {};
+const deleteSteamAccount = async (req: any, res: any) => {};
 
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
+  checkUserExistByDiscordId,
+  checkUserDuplicateRiotId,
+  createUser,
+  addRiotAccount,
+  addSteamAccount,
   getRiotAccountsByDiscordId,
-  selectRiotAccountByRiotId,
+  selectRiotAccount,
   getSteamAccountsByDiscordId,
-  selectSteamAccountBySteamId,
-  deleteRiotAccountByRiotId,
-  deleteSteamAccountBySteamId,
+  selectSteamAccount,
+  deleteRiotAccount,
+  deleteSteamAccount,
 };
