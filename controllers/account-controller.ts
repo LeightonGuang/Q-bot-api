@@ -44,6 +44,22 @@ const getAllAccountsByDiscordId = async (req: any, res: any) => {
   }
 };
 
+const isRegisteredByDiscordId = async (req: any, res: any) => {
+  try {
+    const data: User[] = await knexInstance("users").where({
+      discord_id: req.params.discord_id,
+    });
+    if (data.length > 0) {
+      res.status(200).send(true);
+    } else if (data.length === 0) {
+      res.status(200).send(false);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error checking if user is registered");
+  }
+};
+
 const checkUserExistByDiscordId = async (req: any, res: any) => {
   try {
     const data: User[] = await knexInstance("users").where({
@@ -225,6 +241,7 @@ const deleteRiotAccount = async (req: any, res: any) => {
     res.status(200).send("Riot account deleted");
   } catch (error) {
     console.error(error);
+    res.status(400).send("Error deleting riot accounts");
   }
 };
 
@@ -233,6 +250,7 @@ const deleteSteamAccount = async (req: any, res: any) => {};
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
+  isRegisteredByDiscordId,
   checkUserExistByDiscordId,
   checkUserDuplicateRiotId,
   createUser,
