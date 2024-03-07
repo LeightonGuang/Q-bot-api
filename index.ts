@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to Q-bot-api");
 });
 
-app.use("/api/accounts", accountRouter);
+app.use("/api/account", accountRouter);
 app.use("/api/valorant", valorantRouter);
 
 app.listen(PORT, () => {
