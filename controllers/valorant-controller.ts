@@ -22,4 +22,16 @@ const getActiveRiotAccountByDiscordId = async (req: any, res: any) => {
   }
 };
 
-export { getActiveRiotAccountByDiscordId };
+const updateActiveRiotAccountRank = async (req: any, res: any) => {
+  try {
+    const { rank, discord_id }: { rank: number; discord_id: string } = req.body;
+    await knexInstance("riot_accounts")
+      .where({ discord_id: discord_id, active: true })
+      .update({ rank: rank });
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error updating riot accounts rank");
+  }
+};
+
+export { getActiveRiotAccountByDiscordId, updateActiveRiotAccountRank };
