@@ -28,6 +28,7 @@ const updateActiveRiotAccountRank = async (req: any, res: any) => {
     await knexInstance("riot_accounts")
       .where({ discord_id: discord_id, active: true })
       .update({ rank: rank });
+    res.status(200).send("Riot account rank updated");
   } catch (error) {
     console.error(error);
     res.status(400).send("Error updating riot accounts rank");
