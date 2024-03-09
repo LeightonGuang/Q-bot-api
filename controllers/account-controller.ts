@@ -79,7 +79,6 @@ const checkUserExistByDiscordId = async (req: any, res: any) => {
 
 const checkUserDuplicateRiotId = async (req: any, res: any) => {
   try {
-    console.log(req.body);
     const { discord_id, riot_id } = req.body;
     const data: RiotAccount[] = await knexInstance("riot_accounts").where({
       discord_id: discord_id,
