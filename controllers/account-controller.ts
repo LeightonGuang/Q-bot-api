@@ -204,7 +204,7 @@ const selectSteamAccount = async (req: any, res: any) => {
   }
 };
 
-const deleteRiotAccount = async (req: any, res: any) => {
+const deleteRiotAccount: any = async (req: any, res: any) => {
   try {
     const { discord_id, riot_id } = req.body;
 
@@ -245,7 +245,32 @@ const deleteRiotAccount = async (req: any, res: any) => {
   }
 };
 
-const deleteSteamAccount = async (req: any, res: any) => {};
+const deleteSteamAccount: any = async (req: any, res: any) => {};
+
+const deleteAllAccountsByDiscordId: any = async (req: any, res: any) => {
+  try {
+    await knexInstance("riot_accounts")
+      .where({ discord_id: req.params.discord_id })
+      .del();
+
+    await knexInstance("steam_accounts")
+      .where({
+        discord_id: req.params.discord_id,
+      })
+      .del();
+
+    await knexInstance("users")
+      .where({
+        discord_id: req.params.discord_id,
+      })
+      .del();
+
+    res.status(200).send("All Accounts Deleted");
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error deleting Riot Accounts");
+  }
+};
 
 export {
   getAllUsers,
@@ -262,4 +287,5 @@ export {
   selectSteamAccount,
   deleteRiotAccount,
   deleteSteamAccount,
+  deleteAllAccountsByDiscordId,
 };

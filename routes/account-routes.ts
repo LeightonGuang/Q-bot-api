@@ -13,6 +13,7 @@ import {
   selectRiotAccount,
   getSteamAccountsByDiscordId,
   selectSteamAccount,
+  deleteAllAccountsByDiscordId,
   deleteRiotAccount,
   deleteSteamAccount,
 } from "../controllers/account-controller";
@@ -35,6 +36,7 @@ accountRouter.route("/steam/get/:discord_id").get(getSteamAccountsByDiscordId);
 accountRouter.route("/steam/select").patch(selectSteamAccount);
 
 // delete sub command
+accountRouter.route("/delete/:discord_id").delete(deleteAllAccountsByDiscordId);
 accountRouter.route("/riot/delete").delete(deleteRiotAccount);
 accountRouter.route("/steam/delete").delete(deleteSteamAccount);
 
