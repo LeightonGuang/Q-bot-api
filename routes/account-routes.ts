@@ -5,7 +5,6 @@ import {
   isRegisteredByDiscordId,
   getAllAccountsByDiscordId,
   createUser,
-  checkUserExistByDiscordId,
   checkUserDuplicateRiotId,
   addRiotAccount,
   addSteamAccount,
@@ -24,7 +23,6 @@ accountRouter.route("/registered/:discord_id").get(isRegisteredByDiscordId);
 // add sub command
 accountRouter.route("/:discord_id").get(getAllAccountsByDiscordId);
 accountRouter.route("/").post(createUser);
-accountRouter.route("/user_exist/:discord_id").get(checkUserExistByDiscordId);
 accountRouter.route("/riot/is_duplicate").get(checkUserDuplicateRiotId);
 accountRouter.route("/riot/add").post(addRiotAccount);
 accountRouter.route("/steam/add").post(addSteamAccount);

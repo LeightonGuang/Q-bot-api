@@ -60,23 +60,6 @@ const isRegisteredByDiscordId = async (req: any, res: any) => {
   }
 };
 
-const checkUserExistByDiscordId = async (req: any, res: any) => {
-  try {
-    const data: User[] = await knexInstance("users").where({
-      discord_id: req.params.discord_id,
-    });
-
-    if (data.length === 0) {
-      res.status(200).send(false);
-    } else if (data.length > 0) {
-      res.status(200).send(true);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Error checking existing user");
-  }
-};
-
 const checkUserDuplicateRiotId = async (req: any, res: any) => {
   try {
     const { discord_id, riot_id } = req.body;
@@ -276,7 +259,6 @@ export {
   getAllUsers,
   getAllAccountsByDiscordId,
   isRegisteredByDiscordId,
-  checkUserExistByDiscordId,
   checkUserDuplicateRiotId,
   createUser,
   addRiotAccount,
