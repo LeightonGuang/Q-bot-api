@@ -110,7 +110,8 @@
     "knexfile.js",
     "./**/*.ts",
     "seed-data/accounts.js",
-    "seeds/populate.js"
+    "seeds/populate.js",
+    "tests/get.test.js"
   ],
-  "exclude": ["dist"]
+  "exclude": ["dist", "tests"]
 }
