@@ -101,7 +101,7 @@ const checkUserDuplicateRiotId = async (req: any, res: any) => {
 const createUser = async (req: any, res: any) => {
   try {
     await knexInstance("users").insert(req.body);
-    res.status(200).send("User created");
+    res.status(201).send("User created");
   } catch (error) {
     console.error(error);
     res.status(400).send("Error creating user");
@@ -111,7 +111,7 @@ const createUser = async (req: any, res: any) => {
 const addRiotAccount = async (req: any, res: any) => {
   try {
     await knexInstance("riot_accounts").insert(req.body);
-    res.status(200).send("Riot account added");
+    res.status(201).send("Riot account added");
   } catch (error) {
     console.error(error);
     res.status(400).send("Error adding riot account");
@@ -121,6 +121,7 @@ const addRiotAccount = async (req: any, res: any) => {
 const addSteamAccount = async (req: any, res: any) => {
   try {
     const {} = req.body;
+    res.status(201).send("Steam account added");
   } catch (error) {
     console.error(error);
   }
