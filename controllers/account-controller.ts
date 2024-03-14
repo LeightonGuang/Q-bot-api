@@ -7,6 +7,7 @@ import { User } from "../types/User";
 import { RiotAccount } from "../types/RiotAccount";
 import { SteamAccount } from "../types/SteamAccount";
 import { SteamOrRiotAccount } from "../types/SteamOrRiotAccount";
+import { Balance } from "../types/Balance";
 
 const getAllUsers = async (_req: any, res: any) => {
   try {
@@ -255,6 +256,17 @@ const deleteAllAccountsByDiscordId: any = async (req: any, res: any) => {
   }
 };
 
+const getAccountBalanceByDiscordId: any = async (req: any, res: any) => {
+  try {
+    const data: Balance[] = await knexInstance("balance").where({
+      discord_id: req.params.discord_id,
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
@@ -270,4 +282,5 @@ export {
   deleteRiotAccount,
   deleteSteamAccount,
   deleteAllAccountsByDiscordId,
+  getAccountBalanceByDiscordId,
 };

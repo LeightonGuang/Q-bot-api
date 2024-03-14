@@ -15,6 +15,7 @@ import {
   deleteAllAccountsByDiscordId,
   deleteRiotAccount,
   deleteSteamAccount,
+  getAccountBalanceByDiscordId,
 } from "../controllers/account-controller";
 
 accountRouter.route("/").get(getAllUsers);
@@ -37,5 +38,10 @@ accountRouter.route("/steam/select").patch(selectSteamAccount);
 accountRouter.route("/delete/:discord_id").delete(deleteAllAccountsByDiscordId);
 accountRouter.route("/riot/delete").delete(deleteRiotAccount);
 accountRouter.route("/steam/delete").delete(deleteSteamAccount);
+
+// balance sub command
+accountRouter
+  .route("/balance/get/:discord_id")
+  .get(getAccountBalanceByDiscordId);
 
 export default accountRouter;
