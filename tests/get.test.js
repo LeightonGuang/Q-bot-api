@@ -101,4 +101,26 @@ describe("GET requests", () => {
       expect(Object.keys(valorantAccount)).toContain("active");
     });
   });
+
+  test("GET qoin balance from 508402815157403669 discord id", async () => {
+    const { data, status } = await axios.get(
+      "http://localhost:8080/api/account/balance/get/508402815157403669"
+    );
+    expect(status).toBe(200);
+    data.forEach((balance) => {
+      expect(typeof balance).toBe("object");
+      expect(Object.keys(balance)).toContain("id");
+      expect(Object.keys(balance)).toContain("discord_id");
+      expect(Object.keys(balance)).toContain("balance");
+      expect(Object.keys(balance)).toContain("checkin_time");
+    });
+  });
+
+  test("GET get empty array from random discord id", async () => {
+    const { data, status } = await axios.get(
+      "http://localhost:8080/api/account/balance/get/123456789012345678"
+    );
+    expect(status).toBe(200);
+    expect(data.length).toEqual(0);
+  });
 });
