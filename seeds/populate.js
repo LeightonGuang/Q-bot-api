@@ -1,6 +1,7 @@
 const users = require("../seed-data/accounts.js");
 const riot_accounts = require("../seed-data/riot_accounts");
 const steam_accounts = require("../seed-data/steam_accounts");
+const balance = require("../seed-data/balance.js");
 
 exports.seed = async (knex) => {
   await knex("users").del();
@@ -11,4 +12,7 @@ exports.seed = async (knex) => {
 
   await knex("steam_accounts").del();
   await knex("steam_accounts").insert(steam_accounts);
+
+  await knex("balance").del();
+  await knex("balance").insert(balance);
 };
