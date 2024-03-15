@@ -267,6 +267,40 @@ const getAccountBalanceByDiscordId: any = async (req: any, res: any) => {
   }
 };
 
+const editAccountBalance: any = async (req: any, res: any) => {
+  try {
+    const { discord_id, balance } = req.body;
+
+    const oldBalance: Balance[] = await knexInstance("balance").where({
+      discord_id: discord_id,
+    });
+    console.log(oldBalance);
+
+    if (balance.includes("+")) {
+      const updatedBalance: number =
+        Number(oldBalance[0].balance) + Number(balance.replace("+", ""));
+
+      await knexInstance("balance").where({ discord_id: discord_id }).update({
+        balance: updatedBalance,
+      });
+
+      res.status(201).send("Balance added");
+    } else if (balance.includes("-")) {
+      const updatedBalance: number =
+        Number(oldBalance[0].balance) - Number(balance.replace("-", ""));
+
+      await knexInstance("balance").where({ discord_id: discord_id }).update({
+        balance: updatedBalance,
+      });
+
+      res.status(201).send("Balance deducted");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Error adding balance");
+  }
+};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
@@ -283,4 +317,5 @@ export {
   deleteSteamAccount,
   deleteAllAccountsByDiscordId,
   getAccountBalanceByDiscordId,
+  editAccountBalance,
 };
