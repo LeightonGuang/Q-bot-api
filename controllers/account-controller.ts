@@ -311,12 +311,8 @@ const accountCheckinByDiscordId: any = async (req: any, res: any) => {
 
     const currentDateTime: Date = new Date();
 
-    console.log("currentDateTime: " + currentDateTime);
-
     const oneDayAfterCheckin: Date = new Date(record.checkin_time);
     oneDayAfterCheckin.setDate(oneDayAfterCheckin.getDate() + 1);
-
-    console.log("oneDayAfterCheckin: " + oneDayAfterCheckin);
 
     // more than one day
     if (currentDateTime >= oneDayAfterCheckin) {
