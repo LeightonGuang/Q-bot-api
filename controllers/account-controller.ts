@@ -301,6 +301,50 @@ const editAccountBalance: any = async (req: any, res: any) => {
   }
 };
 
+const accountCheckinByDiscordId: any = async (req: any, res: any) => {
+  try {
+    const record: Balance = await knexInstance("balance")
+      .where({
+        discord_id: req.params.discord_id,
+      })
+      .first();
+
+    const currentDateTime: Date = new Date();
+
+    console.log("currentDateTime: " + currentDateTime);
+
+    const oneDayAfterCheckin: Date = new Date(record.checkin_time);
+    oneDayAfterCheckin.setDate(oneDayAfterCheckin.getDate() + 1);
+
+    console.log("oneDayAfterCheckin: " + oneDayAfterCheckin);
+
+    // more than one day
+    if (currentDateTime >= oneDayAfterCheckin) {
+      // update balance
+      await knexInstance("balance")
+        .where({
+          discord_id: req.params.discord_id,
+        })
+        .update({ balance: record.balance + 100 });
+
+      // update checkin time
+      await knexInstance("balance")
+        .where({
+          discord_id: req.params.discord_id,
+        })
+        .update({ checkin_time: new Date() });
+
+      res.status(200).send({ success: true, balance: record.balance + 100 });
+    } else if (currentDateTime < oneDayAfterCheckin) {
+      // less than one day
+      res.status(200).send({ success: false, balance: record.balance });
+    }
+    res.status(200).send();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export {
   getAllUsers,
   getAllAccountsByDiscordId,
@@ -318,4 +362,5 @@ export {
   deleteAllAccountsByDiscordId,
   getAccountBalanceByDiscordId,
   editAccountBalance,
+  accountCheckinByDiscordId,
 };

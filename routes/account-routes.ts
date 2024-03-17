@@ -17,6 +17,7 @@ import {
   deleteSteamAccount,
   getAccountBalanceByDiscordId,
   editAccountBalance,
+  accountCheckinByDiscordId,
 } from "../controllers/account-controller";
 
 accountRouter.route("/").get(getAllUsers);
@@ -45,5 +46,8 @@ accountRouter
   .route("/balance/get/:discord_id")
   .get(getAccountBalanceByDiscordId);
 accountRouter.route("/balance/edit").post(editAccountBalance);
+accountRouter
+  .route("/balance/checkin/:discord_id")
+  .get(accountCheckinByDiscordId);
 
 export default accountRouter;
