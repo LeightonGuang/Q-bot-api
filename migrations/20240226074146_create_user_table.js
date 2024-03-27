@@ -33,6 +33,7 @@ exports.up = (knex) => {
       table.increments("id").primary();
       table.string("discord_id").notNullable();
       table.integer("balance").notNullable();
+      table.integer("gamble_counter").notNullable();
       table.dateTime("checkin_time").notNullable();
     });
 };
