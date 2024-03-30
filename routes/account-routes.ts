@@ -21,7 +21,7 @@ import {
 } from "../controllers/account-controller";
 
 accountRouter.route("/").get(getAllUsers);
-accountRouter.route("/registered/:discord_id").get(isRegisteredByDiscordId);
+accountRouter.route("/isRegistered/:discord_id").get(isRegisteredByDiscordId);
 
 // add sub command
 accountRouter.route("/:discord_id").get(getAllAccountsByDiscordId);
