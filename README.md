@@ -14,7 +14,7 @@ create table `npx knex migrate:make <migration_file_name>`
 
 migrate table to mysql database `npm run migrate` or `npx knex migrate:latest`
 
-## Endpoints
+## Account routes
 
 | Method   | Endpoint (`http://localhost:8080`)    | Request Body                                                                             | Description                                       |
 | -------- | ------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------- |
@@ -30,3 +30,10 @@ migrate table to mysql database `npm run migrate` or `npx knex migrate:latest`
 | `PATCH`  | `/api/accounts/steam/select`          | `{ discord_id: string , steam_id: string }`                                              | Set the selected Steam account active             |
 | `DELETE` | `/api/accounts/riot/delete`           | `{ discord_id: string , riot_id: string }`                                               | Delete the selected Riot Account                  |
 | `DELETE` | `/api/accounts/steam/delete`          | `{ discord_id: string , steam_id: string }`                                              | Delete the selected Steam Account                 |
+
+## Valorant routes
+
+| Method | Endpoint (`http://localhost:8080`)     | Request Body | Description                     |
+| ------ | -------------------------------------- | ------------ | ------------------------------- |
+| `GET`  | `/api/valorant/active/get/:discord_id` | `/`          | Retrieve an active riot account |
+| `GET`  | `/api/valorant/active/update`          | `/`          | Retrieve an active riot account |
