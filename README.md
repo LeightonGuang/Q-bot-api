@@ -33,7 +33,7 @@ migrate table to mysql database `npm run migrate` or `npx knex migrate:latest`
 
 ## Valorant routes
 
-| Method | Endpoint (`http://localhost:8080`)     | Request Body | Description                     |
-| ------ | -------------------------------------- | ------------ | ------------------------------- |
-| `GET`  | `/api/valorant/active/get/:discord_id` | `/`          | Retrieve an active riot account |
-| `GET`  | `/api/valorant/active/update`          | `/`          | Retrieve an active riot account |
+| Method  | Endpoint (`http://localhost:8080`)     | Request Body                           | Description                       |
+| ------- | -------------------------------------- | -------------------------------------- | --------------------------------- |
+| `GET`   | `/api/valorant/active/get/:discord_id` | `/`                                    | Retrieve an active riot account   |
+| `PATCH` | `/api/valorant/active/update`          | `{ discord_id: string, rank: number }` | Update a riot account information |
